@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102d28">
+    <meta name="description" content="Panel de administración de reservas de canchas deportivas.">
+    <title>Panel de reservas | Cancha Viva</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/panel.css') }}">
+    <script src="{{ url_for('static', filename='js/panel.js') }}" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegación principal">
+        <a class="brand" href="/" aria-label="Cancha Viva, inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none">
+              <rect width="40" height="40" rx="13" fill="currentColor"/>
+              <path d="M20 8.5v23M8.5 20h23M12 12l16 16m0-16L12 28" stroke="#102D28" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="20" cy="20" r="11.5" stroke="#102D28" stroke-width="2"/>
+            </svg>
+          </span>
+          <span class="brand-copy"><strong>cancha<span>viva</span></strong><small>GESTIÓN DEPORTIVA</small></span>
+        </a>
+
+        <div class="nav-label">MENÚ PRINCIPAL</div>
+        <nav class="side-nav">
+          <a class="nav-link active" href="#resumen" aria-current="page">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="8" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="15" width="7" height="6" rx="2"/></svg>
+            Resumen
+          </a>
+          <a class="nav-link" href="#reservas">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+            Reservas
+          </a>
+          <a class="nav-link" href="#canchas">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+            Canchas
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="help-card">
+            <span class="help-icon" aria-hidden="true">?</span>
+            <strong>¿Necesitas ayuda?</strong>
+            <p>Consulta la documentación de tu sistema.</p>
+            <a href="https://github.com/" target="_blank" rel="noreferrer">Ver documentación <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="sidebar-profile">
+            <span class="avatar avatar-lime">CV</span>
+            <span class="profile-copy"><strong>Administrador</strong><small>Panel de gestión</small></span>
+            <span class="online-dot" title="Sistema en línea"></span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Workspace</span><span aria-hidden="true">/</span><strong>Resumen</strong></div>
+          <div class="topbar-actions">
+            <span class="today-label"><span class="live-dot"></span> Sistema activo</span>
+            <button class="icon-button" type="button" id="refresh-button" aria-label="Actualizar reservas" title="Actualizar">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9a7 7 0 0 1 11.6-2L20 12M4 12l2.8 5a7 7 0 0 0 11.6-2"/></svg>
+            </button>
+            <span class="avatar avatar-forest" aria-label="Administrador">AD</span>
+          </div>
+        </header>
+
+        <div class="page-container">
+          <section class="welcome-row" id="resumen">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-line"></span> CENTRO DE OPERACIONES</p>
+              <h1>Tu espacio, <span>en juego.</span></h1>
+              <p class="subtitle">Organiza las reservas y mantén cada cancha en movimiento.</p>
+            </div>
+            <button class="button button-primary" type="button" id="new-booking-button">
+              <span class="button-plus" aria-hidden="true">+</span> Nueva reserva
+            </button>
+          </section>
+
+          <section class="stats-grid" aria-label="Resumen de reservas">
+            <article class="stat-card stat-highlight">
+              <div class="stat-top"><span>Reservas totales</span><span class="stat-icon icon-dark" aria-hidden="true">↗</span></div>
+              <strong class="stat-value" id="stat-total">—</strong>
+              <span class="stat-foot">En todos los estados</span>
+              <span class="stat-decoration" aria-hidden="true"></span>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span>Pendientes</span><span class="stat-icon icon-sand" aria-hidden="true">◷</span></div>
+              <strong class="stat-value" id="stat-pending">—</strong>
+              <span class="stat-foot"><span class="status-dot dot-pending"></span> Requieren atención</span>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span>Confirmadas</span><span class="stat-icon icon-green" aria-hidden="true">✓</span></div>
+              <strong class="stat-value" id="stat-confirmed">—</strong>
+              <span class="stat-foot"><span class="status-dot dot-confirmed"></span> Listas para jugar</span>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span>Canchas activas</span><span class="stat-icon icon-blue" aria-hidden="true">⌁</span></div>
+              <strong class="stat-value" id="stat-courts">—</strong>
+              <span class="stat-foot">Disponibles para reservar</span>
+            </article>
+          </section>
+
+          <section class="content-card" id="reservas">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow"><span class="eyebrow-line"></span> OPERACIÓN DIARIA</p>
+                <h2>Reservas <span class="heading-count" id="visible-count">0</span></h2>
+                <p class="section-description">Consulta y administra las actividades de tus canchas.</p>
+              </div>
+              <button class="button button-outline" type="button" id="new-booking-button-secondary">
+                <span aria-hidden="true">+</span> Crear reserva
+              </button>
+            </div>
+
+            <div class="toolbar">
+              <label class="search-box">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+                <input id="search-input" type="search" placeholder="Buscar reserva, cliente o cancha..." autocomplete="off">
+              </label>
+              <div class="filter-group">
+                <label class="select-wrap">
+                  <span class="sr-only">Filtrar por estado</span>
+                  <select id="status-filter">
+                    <option value="">Todos los estados</option>
+                    <option value="PENDIENTE">Pendiente</option>
+                    <option value="CONFIRMADA">Confirmada</option>
+                    <option value="COMPLETADA">Completada</option>
+                    <option value="CANCELADA">Cancelada</option>
+                  </select>
+                </label>
+                <label class="date-filter">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+                  <span class="sr-only">Filtrar por fecha</span>
+                  <input id="date-filter" type="date">
+                </label>
+              </div>
+            </div>
+
+            <div id="load-error" class="error-banner" role="alert" hidden>
+              <span id="load-error-message">No fue posible cargar las reservas.</span>
+              <button class="text-button" type="button" id="retry-button">Reintentar</button>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>RESERVA</th><th>CANCHA</th><th>CLIENTE</th><th>FECHA Y HORA</th><th>TOTAL</th><th>ESTADO</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+                <tbody id="reservation-rows">
+                  <tr><td class="loading-cell" colspan="7"><span class="spinner"></span> Cargando reservas…</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="empty-state" hidden>
+              <span class="empty-icon" aria-hidden="true">⌁</span>
+              <strong>No encontramos reservas</strong>
+              <p>Prueba cambiando los filtros o crea una nueva reserva.</p>
+              <button class="button button-primary button-small" type="button" id="empty-create-button">Crear reserva</button>
+            </div>
+            <div class="table-footer"><span>Mostrando <strong id="footer-count">0</strong> reservas</span><span class="footer-note"><span class="live-dot"></span> Datos actualizados en tiempo real</span></div>
+          </section>
+
+          <section class="courts-section" id="canchas">
+            <div class="courts-heading">
+              <div><p class="eyebrow"><span class="eyebrow-line"></span> TUS ESPACIOS</p><h2>Canchas activas</h2></div>
+              <span class="subtle-label" id="courts-caption">— espacios disponibles</span>
+            </div>
+            <div class="courts-grid" id="courts-grid">
+              <div class="court-loading"><span class="spinner"></span> Cargando canchas…</div>
+            </div>
+          </section>
+
+          <footer class="page-footer"><span>© <span id="current-year"></span> Cancha Viva</span><span>Hecho para que el juego no pare <span class="footer-heart">♥</span></span></footer>
+        </div>
+      </main>
+    </div>
+
+    <dialog class="booking-dialog" id="booking-dialog" aria-labelledby="dialog-title">
+      <form id="booking-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow"><span class="eyebrow-line"></span> NUEVA ACTIVIDAD</p><h2 id="dialog-title">Reserva una cancha</h2><p>Completa los datos para guardar el horario.</p></div>
+          <button class="dialog-close" type="button" id="close-dialog" aria-label="Cerrar">×</button>
+        </div>
+        <div class="form-grid">
+          <label class="form-field full-field">Cancha
+            <select id="court-select" name="cancha_id" required><option value="">Cargando canchas…</option></select>
+          </label>
+          <div class="form-field full-field client-field">
+            <label for="client-search">Cliente</label>
+            <input id="client-search" type="search" placeholder="Busca por nombre o documento" autocomplete="off" required>
+            <input id="client-id" name="cliente_id" type="hidden">
+            <div class="client-results" id="client-results" role="listbox" hidden></div>
+            <small id="selected-client" class="field-hint">Escribe al menos 2 caracteres para buscar.</small>
+          </div>
+          <label class="form-field">Fecha
+            <input id="booking-date" name="fecha" type="date" required>
+          </label>
+          <label class="form-field">Hora de inicio
+            <input id="booking-start" name="inicio" type="time" value="10:00" required>
+          </label>
+          <label class="form-field">Hora de fin
+            <input id="booking-end" name="fin" type="time" value="11:00" required>
+          </label>
+        </div>
+        <div class="form-error" id="form-error" role="alert" hidden></div>
+        <div class="dialog-actions">
+          <button class="button button-outline" type="button" id="cancel-dialog">Cancelar</button>
+          <button class="button button-primary" type="submit" id="submit-booking">Guardar reserva <span aria-hidden="true">→</span></button>
+        </div>
+      </form>
+    </dialog>
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>
