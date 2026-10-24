@@ -11,7 +11,7 @@ from flaskr.domain.models.usuario import Rol
 from flaskr.infrastructure.db.engine import Base, crear_engine
 from flaskr.infrastructure.db.models.canchaOrm import CanchaOrm
 from flaskr.infrastructure.db.models.clienteOrm import ClienteOrm
-from flaskr.infrastructure.db.models.reservaOrm import ReservaOrm  # noqa: F401  (registra la tabla)
+from flaskr.infrastructure.db.models.reservaOrm import ReservaOrm  # noqa: F401  # pylint: disable=unused-import
 from flaskr.infrastructure.db.models.usuarioOrm import UsuarioOrm
 from flaskr.infrastructure.db.session import crear_session_factory
 
