@@ -53,7 +53,7 @@ controles de autorización.
 ## Tests
 ```bash
 pytest                             # unit + integration
-pytest --cov=flaskr --cov-report=term-missing
+pytest --cov=flaskr.domain --cov-report=term-missing --cov-fail-under=90
 ```
 
 ## Configuración (variables de entorno)
