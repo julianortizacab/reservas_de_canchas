@@ -3,7 +3,8 @@ import json
 from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from datetime import date, datetime
-from typing import ContextManager, TypeVar, TypedDict
+from typing import ContextManager, TypeVar
+from typing_extensions import TypedDict
 
 from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
